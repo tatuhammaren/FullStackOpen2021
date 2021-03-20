@@ -1,0 +1,18 @@
+title 0.6
+
+note over selain:
+Käyttäjä painaa submit-nappia, palvelimelle lähtee JSON-muotoinen muistiinpano, sisältönä aikaleima ja viesti
+end note
+
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over palvelin:
+Palvelin vastaa selaimelle koodilla 201 created.
+end note
+
+palvelin-->selain: Palvelin palauttaa "täydennetyn" JSONin
+
+
+note over selain:
+Tapahtumakäsittelijä päivittää muistiinpanolistan
+end note

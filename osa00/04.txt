@@ -1,0 +1,31 @@
+title 0.4 
+
+note over selain:
+Selain lähettää nappia painettaessa formin sisällön palvelimelle
+end note
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+
+note over palvelin:
+Palvelin vastaa: HTTP-koodi 302, ehdottaa uudelleenohjausta notes-sivulle
+end note
+
+palvelin -> selain: Uudelleenohjaus https://fullstack-exampleapp.herokuapp.com/notes
+
+note over selain: ladataan HTML, CSS, JS
+
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+palvelin-->selain: HTML
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin-->selain: Tyylit
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+palvelin-->selain: Javascript
+
+note over selain:
+Suoritetaan skriptitiedosto (ja pyydetään siellä JSON-data palvelimelta)
+end note
+
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin-->selain: Palvelin palauttaa JSONin
+
+note over selain:
+Suoritetaan event handler joka tuottaa ruudulle notesit

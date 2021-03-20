@@ -1,0 +1,19 @@
+title 0.5
+
+note over selain: Käyttäjä saapuu sivustolle
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa
+palvelin-->selain: Palvelin palauttaa HTML-tiedoston 
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin-->selain: Palvelin palauttaa CSS-tiedoston
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa.js
+palvelin-->selain: Ja lopuksi palautetaan JS-tiedosto
+
+note over selain:
+Suoritetaan skriptitiedosto jossa pyydetään JSON palvelimelta
+end note 
+
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin-->selain: Palvelin lähettä JSONin
+
+note over selain:
+event handler näyttää muistiinpanot näytöllä
