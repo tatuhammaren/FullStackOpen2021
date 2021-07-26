@@ -2,35 +2,28 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
 
-
-
 const App = () => {
-  const [countries, setCountries] = useState([]);
-  const [newSearch, setNewSearch] = useState('');
-  const endpoint = 'https://restcountries.eu/rest/v2/all'
-  
-  useEffect(() => {
+const API_URL = "https://restcountries.eu/rest/v2/all";
+const [countries, setCountries] = useState([])
+
+
+useEffect(() =>{
     axios
-    .get(endpoint)
-    .then ( response => {
+    .get(API_URL)
+    .then(response => {
       setCountries(response.data)
-    })
-  }, [])
+    } )
+    
+}, []);
 
-  //
+console.log(countries.length)
 
-  const handleSearchChange = (event) => {
-    console.log(event.target.value);
-    setNewSearch(event.target.value);
 
-  }
+  return (
+    <p>
 
-  return ( 
-    <div>
-
-    </div>
-
-   );
+    </p>
+  );
 }
- 
+
 export default App;
