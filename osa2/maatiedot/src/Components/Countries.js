@@ -18,7 +18,7 @@ const Countries = ({countries, setCountries}) => {
         return (
           countries.map((country, i) => 
           <li key={i}>
-          {country.name}
+          {country.name} <button onClick={() => setCountries([country])}>Show</button>
           </li>)
         )
       }
