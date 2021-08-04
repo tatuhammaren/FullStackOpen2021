@@ -3,14 +3,14 @@ import Person from './Person'
 
 
 
-const NumberList = ({ persons, newFilter }) => {
+const NumberList = ({ persons, newFilter, deletePersonInfo }) => {
     return (
         <ul>
         {
             persons.filter( 
                 person => person.name.toUpperCase().includes(newFilter.toUpperCase()))
                 .map((person, i) => ( 
-                    <Person key={i} name={person.name} number={person.number} /> ) ) 
+                    <Person key={i} person={person} deletePersonInfo={deletePersonInfo} />  ) ) 
             
         }
         </ul>
