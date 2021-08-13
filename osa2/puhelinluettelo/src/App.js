@@ -3,7 +3,6 @@ import PersonFilter from './Components/PersonFilter';
 import PersonAddForm from './Components/PersonAddForm';
 import PersonList from './Components/PersonList';
 import personsData from './services/personsData';
-import axios from 'axios';
 import NotificationMessage from './Components/NotificationMessage';
 
 const App = () => {
