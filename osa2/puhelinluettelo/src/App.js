@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PersonFilter from './Components/PersonFilter';
 import PersonAddForm from './Components/PersonAddForm';
-import NumberList from './Components/NumberList';
+import PersonList from './Components/PersonList';
 import personsData from './services/personsData';
 import axios from 'axios';
 import NotificationMessage from './Components/NotificationMessage';
@@ -47,7 +47,7 @@ const App = () => {
         personsData
           .update(personToUpdate.id, { ...personToUpdate, number: newNumber })
           .then(up => {
-            setPersons(persons.map(p => p.name === newName ? up : p))
+            setPersons(persons.map(p => p.id === up.id ? up : p))
             setSuccessMessage(`User ${personToUpdate.name} was updated succesfully`)
             setTimeout(() => {
               setSuccessMessage(null)
@@ -65,8 +65,7 @@ const App = () => {
     } else {
       const personObject = {
         name: newName,
-        number: newNumber,
-        id: persons.length + 1
+        number: newNumber
       }
 
       personsData
@@ -109,26 +108,33 @@ const App = () => {
     if (window.confirm(`Do you want to delete ${toBeDeleted[0].name}? `)) {
       personsData
         .removeData(id)
-        .then(setPersons(persons.filter(p => p.id !== id)))
+        .then(result => {
+          setPersons(persons.filter(p => p.id !== id))
+          setSuccessMessage(`User ${toBeDeleted[0].name} deletion succesfull`)
+          console.log(`${id} poistettu`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
+
+        })
         .catch(error => {
+          console.log('meidän pitäisi olla täällä')
           console.log(error)
           setErrorMessage(`Deletion of ${toBeDeleted[0].name} failed`)
           setTimeout(() => {
             setErrorMessage(null)
           }, 5000)
         })
-      setSuccessMessage(`User ${toBeDeleted[0].name} deletion succesfull`)
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
+
       console.log(`${id} poistettu`)
 
     }
 
   }
-
+  console.log(persons)
   return (
     <div>
+
       <h2>Phonebook</h2>
       <NotificationMessage successMsg={successMessage} errorMsg={errorMessage} />
       <PersonFilter newFilter={newFilter} handleFilterChange={handleFilterChange} />
@@ -137,10 +143,8 @@ const App = () => {
       <PersonAddForm addPerson={handleAddPerson} newName={newName} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} newNumber={newNumber} />
 
       <h3>Numbers</h3>
-      <ul>
-        {/* {persons.map(person => <li key={person.name}>{person.name} {person.number}</li> )} */}
-        <NumberList newFilter={newFilter} persons={persons} deletePersonInfo={deletePersonInfo} />
-      </ul>
+      {/* {persons.map(person => <li key={person.name}>{person.name} {person.number}</li> )} */}
+      <PersonList persons={persons} deletePersonInfo={deletePersonInfo} />
     </div>
   )
 
