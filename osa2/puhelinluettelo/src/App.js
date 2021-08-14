@@ -69,19 +69,23 @@ const App = () => {
 
       personsData
         .create(personObject)
-        .then(personsList => setPersons(persons.concat(personsList)))
+        .then(personsList => {
+          setPersons(persons.concat(personsList))
+          setSuccessMessage(`User ${newName} was added succesfully`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
+        })
         .catch(error => {
-          setErrorMessage(`Adding of ${newName} failed`)
+          //console.log(error.response.data)
+          setErrorMessage(error.response.data.error)
           setTimeout(() => {
             setErrorMessage(null)
           }, 5000)
         })
       setNewName('')
       setNewNumber('')
-      setSuccessMessage(`User ${newName} was added succesfully`)
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
+
 
     }
   }
