@@ -68,7 +68,7 @@ describe('totalLikes', () => {
 describe('favoritePost', () => {
   test('return post(s) with most likes', () => {
 
-    expect(listHelper.favoritePost(blogs)).toEqual(favoritePost)
+    expect(listHelper.favoriteBlog(blogs)).toEqual(favoritePost)
   })
 
 })
