@@ -1,4 +1,5 @@
 const listHelper = require('../utils/list_helper')
+
 const blogs = [
   {
     _id: "5a422a851b54a676234d17f7",
@@ -50,25 +51,13 @@ const blogs = [
   }
 ]
 
-const favoritePost = {
-  _id: "5a422b3a1b54a676234d17f9",
-  title: "Canonical string reduction",
+const mostLiked = {
   author: "Edsger W. Dijkstra",
-  url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-  likes: 12,
-  __v: 0
+  likes: 17
 }
 
-describe('totalLikes', () => {
-  test('return total likes of blogs', () => {
-    expect(listHelper.totalLikes(blogs)).toBe(36)
-  })
 
-})
-describe('favoritePost', () => {
-  test('return post(s) with most likes', () => {
 
-    expect(listHelper.favoriteBlog(blogs)).toEqual(favoritePost)
-  })
-
+describe('mostLikes', () => {
+  test.todo('most liked blog post')
 })
