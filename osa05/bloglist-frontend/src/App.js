@@ -119,6 +119,8 @@ const blogForm = () => (
   </form>
   </div>
 )
+
+
   return (
     <div>
         <h1>blogs</h1>
@@ -133,13 +135,14 @@ const blogForm = () => (
       {user !== null && 
       <div>
       <p>{user.name} logged in! <button onClick={handeLogout}> log out</button> </p>
+
       {blogForm()}
+      </div>}
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
     </div>
-      }
-      </div>
+      
   )
 }
 
