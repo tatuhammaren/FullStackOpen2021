@@ -1,33 +1,68 @@
 import React, {useState} from "react";
 
 
-const BlogForm = () => (
+const BlogForm = ({createBlog}) => {
+    const [title, setTitle] = useState('')
+    const [author, setAuthor] = useState('')
+    const [url, setUrl] = useState('')
+
+    const handeAuthorChange = (event) => {
+        //console.log(event.target.value);
+          setAuthor(event.target.value)
+      }
+      const handeTitleChange = (event) => {
+        //console.log(event.target.value);
+        setTitle(event.target.value)
+      }
+      const handeUrlChange = (event) => {
+        //console.log(event.target.value);
+        setUrl(event.target.value)
+      }
+const addBlog = (event) => {
+    event.preventDefault()
+
+    createBlog({
+        author: author,
+        title: title,
+        url: url
+    })
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+}
+
+return (
     <div>
     <h2>Add new post</h2>
-    <form onSubmit={handleBlogAdd}>
+    <form onSubmit={addBlog}>
     <div>
         title: <input
         type="text"
         value={title}
         name="Title"
-        onChange={({target}) => setTitle(target.value)}
+        onChange={handeTitleChange}
          />
+    <div>
         author: <input
         type="text"
         value={author}
         name="Author"
-        onChange={({target}) => setAuthor(target.value)}
+        onChange={handeAuthorChange}
          />
-                 title: <input
-        type="url"
+         </div>
+         <div>
+                 url: <input
+        type="text"
         value={url}
-        name="Link"
-        onChange={({target}) => setUrl(target.value)}
+        name="URL"
+        onChange={handeUrlChange}
          />
+         </div>
+         <button type="submit">submit</button>
     </div>
 
     </form>
     </div>
-)
+)}
 
 export default BlogForm

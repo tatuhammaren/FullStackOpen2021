@@ -5,15 +5,15 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import NotificationMessage from './components/NotificationMessage'
+import Toggable from './components/Toggable'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
 
@@ -54,19 +54,19 @@ const handeLogin = async (event) => {
   setUsername('')
   setPassword('')
 }
-const handleBlogAdd = async event => {
-  event.preventDefault()
-  console.log('moro');
-  const newBlog = {title: title, author: author, url: url}
-  blogService.create(newBlog).then(b => {
+const addBlog = (blogObject) => {
+
+  blogService.create(blogObject).then(b => {
     setBlogs(blogs.concat(b))
-    setSuccessMessage(`Blog ${title} by ${author} was added!`)
+    setSuccessMessage(`Blog ${blogObject.title} by ${blogObject.author} was added!`)
     setTimeout(() => {
       setSuccessMessage(null)
     }, 3000)
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+  }).catch(e => {
+    setErrorMessage(e.errorMessage)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 300);
   })
 
 
@@ -87,57 +87,43 @@ const handeLogout = async event => {
     }, 300);
   }
 }
+
+
 const blogForm = () => (
-  <div>
-  <h2>Add new post</h2>
-  <form onSubmit={handleBlogAdd}>
-  <div>
-      title: <input
-      type="text"
-      value={title}
-      name="Title"
-      onChange={({target}) => setTitle(target.value)}
-       />
-    </div>
-    <div>
-      author: <input
-      type="text"
-      value={author}
-      name="Author"
-      onChange={({target}) => setAuthor(target.value)}
-       />
-       </div>
-       <div>
-               url: <input
-        type="text"
-        value={url}
-        name="Link"
-        onChange={({target}) => setUrl(target.value)}
-       />
-  </div>
-  <button type="submit"> add blog </button>
-  </form>
-  </div>
+<Toggable buttonLabel="add blog ">
+  <BlogForm
+  createBlog={addBlog}
+   />
+</Toggable>
 )
 
+const loginForm = () => (
+  <Toggable buttonLabel='login'>
+  <LoginForm 
+    handeLogin={handeLogin} 
+    username={username}
+    setPassword={setPassword} 
+    password={password}
+    setUsername={setUsername}
+    />
+  </Toggable>
+)
 
   return (
     <div>
         <h1>blogs</h1>
         <NotificationMessage successMsg={successMessage} errorMsg={errorMessage} />
-        {user === null && <LoginForm 
-        handeLogin={handeLogin} 
-        username={username}
-        setPassword={setPassword} 
-        password={password}
-        setUsername={setUsername}
-        />}
-      {user !== null && 
+
+      <div>
+      {user === null ?
+      loginForm() :
       <div>
       <p>{user.name} logged in! <button onClick={handeLogout}> log out</button> </p>
-
       {blogForm()}
-      </div>}
+      </div>
+      }
+
+      </div>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
