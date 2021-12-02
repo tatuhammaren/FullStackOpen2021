@@ -1,5 +1,4 @@
-import axios from "axios";
-require('dotenv').config()
+import axios from 'axios'
 
 const URL = 'http://localhost:3001/api/login'
 
