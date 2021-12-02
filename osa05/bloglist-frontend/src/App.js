@@ -88,7 +88,7 @@ const App = () => {
       }, 300)
     }
   }
-  const handleLikeUpdate = async (blogId, likeCount)=> {
+  const handleLikeUpdate = async (blogId, likeCount) => {
     await blogService.update(blogId,
       {
         likes: likeCount + 1

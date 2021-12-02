@@ -27,22 +27,22 @@ const Blog = ({ blog, user, handleLikes }) => {
   const fullBlog = () => {
     return (
       <div className="blogPostInfo">
-      <p>{blog.url}</p>
-      <p>likes {blog.likes} <button onClick={() => handleLikes(blog.id, blog.likes)}>like</button></p>
-      <p>{blog.author}
-      {blogCreator() === true &&
+        <p>{blog.url}</p>
+        <p>likes {blog.likes} <button onClick={() => handleLikes(blog.id, blog.likes)}>like</button></p>
+        <p>{blog.author}
+          {blogCreator() === true &&
       <button onClick={handleDelete}>delete</button>
-      }</p>
+          }</p>
 
-    </div>
+      </div>
     )
   }
   return (
     <div style={blogpost} className="blogPost">
-    <div  className="titleAndAuthor">
-    {blog.title} {blog.author} <button onClick={() => setShowAllBlogs(!showAllBlogs)}>view</button>
-    </div>
-    {showAllBlogs && fullBlog()}
+      <div  className="titleAndAuthor">
+        {blog.title} {blog.author} <button onClick={() => setShowAllBlogs(!showAllBlogs)}>view</button>
+      </div>
+      {showAllBlogs && fullBlog()}
     </div>
   )
 
