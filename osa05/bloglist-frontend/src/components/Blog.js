@@ -29,10 +29,11 @@ const Blog = ({ blog, user, handleLikes }) => {
       <div className="blogPostInfo">
       <p>{blog.url}</p>
       <p>likes {blog.likes} <button onClick={() => handleLikes(blog.id, blog.likes)}>like</button></p>
-      <p>{blog.author}</p>
+      <p>{blog.author}
       {blogCreator() === true &&
-      <p><button onClick={handleDelete}>delete</button></p>
-      }
+      <button onClick={handleDelete}>delete</button>
+      }</p>
+
     </div>
     )
   }
