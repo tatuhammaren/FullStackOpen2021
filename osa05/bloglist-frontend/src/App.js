@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 //import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -13,10 +13,10 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
 
+  const blogFromRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -55,7 +55,7 @@ const handeLogin = async (event) => {
   setPassword('')
 }
 const addBlog = (blogObject) => {
-
+  blogFromRef.current.toggleVisibility()
   blogService.create(blogObject).then(b => {
     setBlogs(blogs.concat(b))
     setSuccessMessage(`Blog ${blogObject.title} by ${blogObject.author} was added!`)
@@ -66,11 +66,12 @@ const addBlog = (blogObject) => {
     setErrorMessage(e.errorMessage)
     setTimeout(() => {
       setErrorMessage(null)
-    }, 300);
+    }, 3000);
   })
 
 
 }
+
 const handeLogout = async event => {
   event.preventDefault()
   try {
@@ -90,13 +91,23 @@ const handeLogout = async event => {
 
 
 const blogForm = () => (
-<Toggable buttonLabel="add blog ">
+<Toggable buttonLabel="add blog" ref={blogFromRef}>
   <BlogForm
   createBlog={addBlog}
    />
 </Toggable>
 )
-
+const blogList = () => {
+  return (
+  <div>
+  {blogs
+  .sort((a, b) => b.likes - a.likes)
+  .map(blog =>
+    <Blog key={blog.id} blog={blog} user={user}/>
+  )}
+</div>
+  )
+}
 const loginForm = () => (
   <Toggable buttonLabel='login'>
   <LoginForm 
@@ -113,7 +124,6 @@ const loginForm = () => (
     <div>
         <h1>blogs</h1>
         <NotificationMessage successMsg={successMessage} errorMsg={errorMessage} />
-
       <div>
       {user === null ?
       loginForm() :
@@ -122,12 +132,9 @@ const loginForm = () => (
       {blogForm()}
       </div>
       }
-
+      {blogList()}
       </div>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-    </div>
+      </div>
       
   )
 }
