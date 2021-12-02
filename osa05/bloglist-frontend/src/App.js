@@ -73,8 +73,7 @@ const App = () => {
 
   }
 
-  const handleLogout = async event => {
-    event.preventDefault()
+  const handleLogout = async () => {
     try {
       setSuccessMessage('logging out...')
       setTimeout(() => {
@@ -89,7 +88,13 @@ const App = () => {
       }, 300)
     }
   }
-
+  const handleLikeUpdate = async (blogId, likeCount)=> {
+    await blogService.update(blogId,
+      {
+        likes: likeCount + 1
+      }
+    )
+  }
 
   const blogForm = () => (
     <Toggable buttonLabel="add blog" ref={blogFromRef}>
@@ -104,7 +109,7 @@ const App = () => {
         {blogs
           .sort((a, b) => b.likes - a.likes)
           .map(blog =>
-            <Blog key={blog.id} blog={blog} user={user}/>
+            <Blog key={blog.id} blog={blog} user={user} handleLikes={handleLikeUpdate}/>
           )}
       </div>
     )
