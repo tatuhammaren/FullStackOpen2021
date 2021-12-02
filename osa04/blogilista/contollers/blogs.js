@@ -48,7 +48,7 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) =
   
 })
 
-blogsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
+blogsRouter.patch('/:id', middleware.userExtractor, async (request, response) => {
   const body = request.body
   if(!request.body.likes) {
     console.log('no likes')
