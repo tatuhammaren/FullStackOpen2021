@@ -1,3 +1,4 @@
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -19,8 +20,17 @@ const asObject = (anecdote) => {
 export const voteAnecdote = (id) => {
   return {
     type: 'VOTE',
+    id
+  }
+}
+export const createAnecdote= (anecdote) => {
+  //console.log('moi', anecdote)
+  return {
+    type: 'NEW_ANECDOTE',
     data: {
-      id: id
+      content: anecdote,
+      id: getId(),
+      votes: 0
     }
   }
 }
@@ -31,13 +41,17 @@ const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
   switch (action.type) {
-  case 'VOTE':
-    console.log(`täällä pitäisi äänestää ${action.data.id}`)
-    return state.map(anecdote => anecdote.id !== action.data.id ? anecdote : action.data)
-
+  case 'VOTE': {
+    return state.map(anecdote => anecdote.id ===  action.id ?  { ...anecdote, votes: anecdote.votes + 1 } : anecdote)
+    //return state
+  }
+  case 'NEW_ANECDOTE': {
+    // console.log(action.data)
+    // console.log(action.data.content)
+    return state.concat(action.data)
+  }
   default: return state
   }
-
 }
 
 export default reducer
