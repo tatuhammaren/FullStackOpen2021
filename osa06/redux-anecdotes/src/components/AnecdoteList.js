@@ -8,7 +8,7 @@ const  AnecdoteList = () => {
     const f = state.filter
     const anecdotes = state.anecdotes
     if(f === '') return anecdotes
-    return anecdotes.filter(anecdote => anecdote.content.toLowerCase().indexOf(f.toLowerCase()) >0)
+    return anecdotes.filter(anecdote => anecdote.content.toLowerCase().indexOf(f.toLowerCase()) > -1)
   })
   const dispatch = useDispatch()
 
