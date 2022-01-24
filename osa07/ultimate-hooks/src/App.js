@@ -25,7 +25,7 @@ const useResource = (baseUrl) => {
   useEffect(() => {
     axios.get(baseUrl)
     .then(res => setResources(res.data))
-  }, [])
+  }, [baseUrl])
 
   const create = async (resource) => {
     // ...
