@@ -48,9 +48,9 @@ const App = () => {
   const name = useField('text')
   const number = useField('text')
 
-  const [notes, noteService] = useResource('http://localhost:3005/notes')
-  const [persons, personService] = useResource('http://localhost:3005/persons')
-
+  const [notes, noteService] = useResource('http://localhost:8080/coffees')
+  const [persons, personService] = useResource('http://localhost:8080/coffees')
+	console.log(notes)
   const handleNoteSubmit = (event) => {
     event.preventDefault()
     noteService.create({ content: content.value })

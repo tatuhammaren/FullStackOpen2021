@@ -2,7 +2,7 @@ let TimeId = 0
 const reducer = (state = null, action) => {
   switch (action.type){
   case 'SET_NOTIFICATION': {
-    return action.data.notification
+    return action.data
   }
   default: return state
   }

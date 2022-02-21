@@ -1,0 +1,29 @@
+.successMsg {
+    border-style: solid;
+    border-radius: 5px;
+    color: darkgreen;
+    background: lightgrey;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 20px;
+  }
+  
+  .errorMsg {
+    border-style: solid;
+    border-radius: 5px;
+    color: red;
+    background: lightgrey;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 20px;
+  }
+
+  .blogpost {
+    padding-top: 10;
+    padding-left: 2;
+    border: solid;
+    border-width: 1;
+    margin-bottom: 5;
+  };
+
+  

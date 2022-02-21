@@ -30,11 +30,23 @@ blogsRouter.post('/',middleware.userExtractor, async (request, response) => {
     response.status(201).json(bb.toJSON())
   
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
   
 })
+blogsRouter.post('/:id/comments', async (request, response) => {
+  if(request.body.comment) {
+    try {
+      let blog = await Blog.findByIdAndUpdate(request.params.id, {['$addToSet']: {comments: request.body.comment}}, {new: true})
+      response.json(blog)
+    } catch (e) {
+      console.error(e)
+    }
+  } else {
+    return response.status(400).json({ error: 'comment field is empty' })
+  }
 
+} )
 blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
   const blog = await Blog.findById(request.params.id)
 

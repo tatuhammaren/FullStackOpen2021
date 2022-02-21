@@ -33,6 +33,7 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+  console.log(blogs)
   const handleLogin = async (event) => {
     event.preventDefault()
 
