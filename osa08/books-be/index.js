@@ -1,5 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server')
-
+const { v1: uuid } = require('uuid')
 let authors = [
   {
     name: 'Robert Martin',
@@ -22,10 +22,9 @@ let authors = [
   },
   { 
     name: 'Sandi Metz', // birthyear not known
-    id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
+    id: "afa5b6f3-344d-11e9-a414-719c6709cf3e"
   },
 ]
-
 /*
  * Suomi:
  * Saattaisi olla järkevämpää assosioida kirja ja sen tekijä tallettamalla kirjan yhteyteen tekijän nimen sijaan tekijän id
@@ -110,8 +109,18 @@ const typeDefs = gql`
     bookCount: Int
   }
   type Mutation {
-    
-  }
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String]!
+    ): Book
+    editAuthor(
+      name: String!
+      setBornTo: Int!
+    ): Author
+  },
+
 `
 
 const resolvers = {
@@ -133,6 +142,35 @@ const resolvers = {
   },
   Author: {
     bookCount: (root) => books.filter(b => b.author === root.name).length
+  },
+  Mutation: {
+    addBook:(root, args) => {
+        const auth = authors.find(a => a.name === args.author)
+        if(!auth) {
+          const newUser = {
+            name: args.author,
+            id: uuid()
+          }
+          authors = authors.concat(newUser)
+        }
+        const book = {
+          title: args.title,
+          published: args.published,
+          author: args.author,
+          genres: args.genres
+        }
+        books = books.concat(book)
+        return book
+    },
+    editAuthor: (root, args) => {
+        const author = authors.find(a => a.name === args.name)
+        if(author) {
+          const newAuthor = {...author, born: args.setBornTo}
+          authors = authors.map(authr => authors.find(a => a.name === newAuthor.name) ||authr)
+          return newAuthor
+        }
+
+    }
   }
 }
 
