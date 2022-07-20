@@ -14,7 +14,10 @@
     "apollo-server": "^3.6.7",
     "dotenv": "^16.0.1",
     "graphql": "^16.3.0",
+<<<<<<< HEAD
     "mongoose": "^6.4.6",
+=======
+>>>>>>> ffd23a0db3ed5a79f3cf47fce99d5d41f9e0c528
     "nodemon": "^2.0.15",
     "uuid": "^8.3.2"
   }

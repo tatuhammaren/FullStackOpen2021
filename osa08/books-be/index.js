@@ -1,5 +1,9 @@
 const { ApolloServer, gql } = require('apollo-server')
+<<<<<<< HEAD
 const { v4: uuid } = require('uuid')
+=======
+const { v1: uuid } = require('uuid')
+>>>>>>> ffd23a0db3ed5a79f3cf47fce99d5d41f9e0c528
 let authors = [
   {
     name: 'Robert Martin',
@@ -22,10 +26,14 @@ let authors = [
   },
   { 
     name: 'Sandi Metz', // birthyear not known
+<<<<<<< HEAD
     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
   }
+=======
+    id: "afa5b6f3-344d-11e9-a414-719c6709cf3e"
+  },
+>>>>>>> ffd23a0db3ed5a79f3cf47fce99d5d41f9e0c528
 ]
-
 /*
  * Suomi:
  * Saattaisi olla järkevämpää assosioida kirja ja sen tekijä tallettamalla kirjan yhteyteen tekijän nimen sijaan tekijän id
@@ -112,6 +120,7 @@ const typeDefs = gql`
   type Mutation {
     addBook(
       title: String!
+<<<<<<< HEAD
     published: Int!
     author: String!
     genres: [String]!
@@ -121,6 +130,18 @@ const typeDefs = gql`
       setBornTo: Int! 
     ): Author
   }
+=======
+      author: String!
+      published: Int!
+      genres: [String]!
+    ): Book
+    editAuthor(
+      name: String!
+      setBornTo: Int!
+    ): Author
+  },
+
+>>>>>>> ffd23a0db3ed5a79f3cf47fce99d5d41f9e0c528
 `
 
 const resolvers = {
@@ -145,6 +166,7 @@ const resolvers = {
     bookCount: (root) => books.filter(b => b.author === root.name).length
   },
   Mutation: {
+<<<<<<< HEAD
     addBook: (root, args) => {
       if(!authors.includes(a => a.name === args.author)){
         authors = authors.concat({
@@ -166,6 +188,34 @@ const resolvers = {
       const updatedAuthor = {...authorInDb, born: args.setBornTo}
       authors = authors.map(a => a.name === args.name ? updatedAuthor : a)
       return updatedAuthor
+=======
+    addBook:(root, args) => {
+        const auth = authors.find(a => a.name === args.author)
+        if(!auth) {
+          const newUser = {
+            name: args.author,
+            id: uuid()
+          }
+          authors = authors.concat(newUser)
+        }
+        const book = {
+          title: args.title,
+          published: args.published,
+          author: args.author,
+          genres: args.genres
+        }
+        books = books.concat(book)
+        return book
+    },
+    editAuthor: (root, args) => {
+        const author = authors.find(a => a.name === args.name)
+        if(author) {
+          const newAuthor = {...author, born: args.setBornTo}
+          authors = authors.map(authr => authors.find(a => a.name === newAuthor.name) ||authr)
+          return newAuthor
+        }
+
+>>>>>>> ffd23a0db3ed5a79f3cf47fce99d5d41f9e0c528
     }
   }
 }
