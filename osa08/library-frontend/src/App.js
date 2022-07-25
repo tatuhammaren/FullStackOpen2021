@@ -1,35 +1,79 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
-import {useQuery} from '@apollo/client'
-import { GET_ALL_AUTHORS, GET_ALL_BOOKS } from './queries'
-
+import LoginForm from './components/LoginForm'
+import { useApolloClient} from '@apollo/client'
+import RecommendedBooks  from './components/RecommendedBooks'
 const App = () => {
-  const [page, setPage] = useState('authors')
-  const authors = useQuery(GET_ALL_AUTHORS)
-  const books = useQuery(GET_ALL_BOOKS)
+  const [page, setPage] = useState('books')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [token, setToken] = useState(null)
+  const client = useApolloClient()
+  const notify = (message) => {
+    setErrorMessage(message)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 10000)
+  }
+  const logout = () => {
+    setToken(null)
+    localStorage.clear()
+    client.resetStore()
+  }
+  useEffect(() => {
+    const t = localStorage.getItem('library-token')
+    if(!t) return null
+    setToken(t)
+  },[])
 
-  
-  if(!authors.loading && !books.loading) {
+  const UserLoggedIn = () => {
+    if(token) {
+    return(
+    <span>
+    <button onClick={() => setPage('recommended')}>recommended</button>
+    <button onClick={() => setPage('add')}>add book</button>
+    <button onClick={logout}>logout</button>
+      </span>  
+  )
+    } else {
+      return null
+    }
+  }
+
   return (
     <div>
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
+        <UserLoggedIn />
+               {!token && <button onClick={() => setPage('login')}>login</button>}
       </div>
+      <Notify errorMessage={errorMessage} />
+      <RecommendedBooks show={page === 'recommended'} />
+      <Authors show={page === 'authors'}/>
 
-      <Authors show={page === 'authors'} authors={authors.data.allAuthors} />
+      <Books show={page === 'books'}  />
 
-      <Books show={page === 'books'} books={books.data.allBooks} />
+     {!token && <LoginForm show={page === 'login'}           setToken={setToken}
+          setError={notify} /> }
+      <NewBook show={page === 'add'} setError={notify} />
 
-      <NewBook show={page === 'add'} />
     </div>
   )
-  } else {
+/*   } else {
     return <div>loading</div>
+  } */
+}
+const Notify = ({errorMessage}) => {
+  if ( !errorMessage ) {
+    return null
   }
+  return (
+    <div style={{color: 'red'}}>
+      {errorMessage}
+    </div>
+  )
 }
 
 export default App

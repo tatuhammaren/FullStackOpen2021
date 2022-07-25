@@ -8,7 +8,6 @@ module.exports = gql`
     allAuthors: [Author]
     me: User
   }
-
   type Book {
     title: String!
     published: Int!

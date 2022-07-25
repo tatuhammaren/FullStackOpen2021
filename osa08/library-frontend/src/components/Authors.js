@@ -1,9 +1,14 @@
 import BirthyearForm from "./BirthyearForm"
-
-const Authors = ({show, authors}) => {
+import { useQuery } from "@apollo/client"
+import { GET_ALL_AUTHORS
+ } from "../queries"
+import { useEffect } from "react"
+const Authors = ({show}) => {
+  const authors = useQuery(GET_ALL_AUTHORS) 
   if (!show) {
     return null
   }
+  if(!authors.loading) {
   return (
     <div>
       <h2>authors</h2>
@@ -14,7 +19,7 @@ const Authors = ({show, authors}) => {
             <th>born</th>
             <th>books</th>
           </tr>
-          {authors.map((a) => (
+          {authors.data.allAuthors.map((a) => (
             <tr key={a.name}>
               <td>{a.name}</td>
               <td>{a.born}</td>
@@ -23,9 +28,14 @@ const Authors = ({show, authors}) => {
           ))}
         </tbody>
       </table>
-      <BirthyearForm  authors={authors}/>
+      <BirthyearForm  authors={authors.data.allAuthors}/>
     </div>
   )
+} else {
+  return (
+    <div>loading</div>
+  )
+}
 }
 
 export default Authors

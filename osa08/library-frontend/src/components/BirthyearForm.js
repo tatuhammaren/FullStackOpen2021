@@ -4,7 +4,6 @@ import { useMutation } from '@apollo/client'
 import { GET_ALL_AUTHORS, UPDATE_BIRTHYEAR } from '../queries'
 
 const BirthyearForm = ({authors}) => {
-    const [selectedOption, setSelectedOption] = useState(null);
     const [author, setAuthor] = useState('')
     const [newBorn, setNewBorn] = useState('')
     const [editAuthor] = useMutation(UPDATE_BIRTHYEAR, {
@@ -13,8 +12,7 @@ const BirthyearForm = ({authors}) => {
 
     const submit = async (event) => {
       event.preventDefault()
-      console.log(author);
-      editAuthor({variables: {name: author.value, setBornTo: parseInt(newBorn)}})
+      editAuthor({variables: {name: author.label, setBornTo: parseInt(newBorn)}})
       setNewBorn('')
       setAuthor('')
   
