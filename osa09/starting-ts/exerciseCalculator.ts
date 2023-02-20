@@ -7,11 +7,12 @@ interface Result {
     target: number,
     avgHours: number
 }
-interface ExInputValues {
+
+/* interface ExInputValues {
     exercises: number[],
     target: number
-}
-const parseExArgs = (args: Array<string>): ExInputValues => {
+} */
+/* const parseExArgs = (args: Array<string>): ExInputValues => {
     if (args.length < 6) throw new Error('Not enough arguments');
 	if (args.length > 13) throw new Error('Too many arguments');
     const argsAsStrings = args.slice(3)
@@ -22,28 +23,39 @@ const parseExArgs = (args: Array<string>): ExInputValues => {
 		exercises: argsToNumbers,
 		target: Number(args[2])
 	  }
-	}
+	} 
 
-}
-function calculateExercises(exercises: number[], target: number): Result {
-    const period = exercises.length
-    const trainedDays = exercises.filter((trained) => trained > 0).length
-    const avgHours = exercises.reduce((x, y) => x + y, 0) / period
-    const success = avgHours >= target ? true : false
-
+}*/
+export function calculateExercises(exercises: number[], target: number): Result {
+    const period = exercises.length;
+    const trainedDays = exercises.filter((trained) => trained > 0).length;
+    const avgHours = exercises.reduce((x, y) => x + y, 0) / period;
+    const success = avgHours >= target ? true : false;
+    const countRating = (averageHours: number, target: number): number => {
+        if(averageHours < target * 0.5) return 1;
+        if(averageHours < target) return 2;
+        return 3;
+    };
+    const getRatingDesc = (rating: number): string => {
+        if (rating === 1) return 'NOT OK';
+        if (rating === 2) return'Okay-ish, next time meet your target :)';
+        return'NICE JOB!';
+    };
+    const rating = countRating(avgHours, target);
+    const ratingDesc = getRatingDesc(rating);
     return {
         period,
         trainedDays,
         success,
-        rating: 0,
-        ratingDesc: 'not too bad but could be better',
+        rating,
+        ratingDesc,
         target,
         avgHours
-    }
+    };
 }
 
 
-try {
+/* try {
 	const {target, exercises} = parseExArgs(process.argv)
 	console.log(
 		calculateExercises(exercises, target)
@@ -56,4 +68,4 @@ try {
 	}
 	console.log(errorMsg);
 	
-}
+} */
