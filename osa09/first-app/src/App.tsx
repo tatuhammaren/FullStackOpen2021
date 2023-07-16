@@ -1,31 +1,9 @@
 import Content from "./components/Content";
 import Header from "./components/Header";
 import Total from "./components/Total";
-
+import { CoursePart } from "./types";
 const App = () => {
   const courseName = "Half Stack application development";
-  interface CoursePartBase {
-    name: string;
-    exerciseCount: number;
-  }
-
-  interface CoursePartBasic extends CoursePartBase {
-    description: string;
-    kind: "basic";
-  }
-
-  interface CoursePartGroup extends CoursePartBase {
-    groupProjectCount: number;
-    kind: "group";
-  }
-
-  interface CoursePartBackground extends CoursePartBase {
-    description: string;
-    backgroundMaterial: string;
-    kind: "background";
-  }
-
-  type CoursePart = CoursePartBasic | CoursePartGroup | CoursePartBackground;
 
   const courseParts: CoursePart[] = [
     {
@@ -60,9 +38,14 @@ const App = () => {
       description: "a hard part",
       kind: "basic",
     },
+    {
+      name: "Backend development",
+      exerciseCount: 21,
+      description: "Typing the backend",
+      requirements: ["nodejs", "jest"],
+      kind: "special",
+    },
   ];
-
-  const ex = courseParts.reduce((carry, part) => carry + part.exerciseCount, 0);
   return (
     <div>
       <Header header={courseName} />
