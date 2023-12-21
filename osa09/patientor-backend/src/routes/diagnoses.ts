@@ -3,9 +3,6 @@ import express from "express";
 import diagnoseService from "../services/diagnoseService";
 
 const router = express.Router();
-const asd = "moi";
-
-console.log("moi");
 
 router.get("/diagnoses", (_req, res) => {
   res.send(diagnoseService.getDiagnoses());
